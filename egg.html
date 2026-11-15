@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scrambled Eggs</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: white;
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+h1 {
+    color: darkblue;
+    text-decoration: underline;
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 21px;
+    margin-top: 30px;
+}
+
+table {
+    width: 100%;
+    max-width: 700px;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #e8edf3;
+}
+
+input[type="range"] {
+    width: 110px;
+}
+
+.amount {
+    display: inline-block;
+    min-width: 35px;
+}
+
+.total {
+    margin-top: 25px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 25px;
+}
+
+.cancel {
+    background: #ddd;
+    color: black;
+}
+
+.save {
+    background: #001b5e;
+    color: white;
+    margin-left: 10px;
+    border-radius: 30px;
+    text-shadow:
+        0 0 3px white,
+        0 0 6px white,
+        0 0 12px white,
+        0 0 18px white;
+}
+
+@media(max-width: 500px) {
+    body {
+        padding: 12px;
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 13px;
+    }
+
+    input[type="range"] {
+        width: 75px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Scrambled Eggs</h1>
+
+<h2>Eggs</h2>
+
+<p>Eggs have little to no carbs! Just enter how amny eggs you want here.</p>
+
+<table>
+<tr>
+    <th>Food</th>
+    <th>Amount</th>
+    <th>Carbs</th>
+</tr>
+
+<tbody>
+
+<tr>
+<td>Scrambled eggs</td>
+<td>
+    <input type="range" id="eggs" min="0" max="6" step="1" value="2">
+    <span class="amount" id="eggAmount">2 eggs</span>
+</td>
+<td id="eggCarbs">0.8g</td>
+</tr>
+
+</tbody>
+</table>
+
+<h2>Toppings</h2>
+<p>Choose any extra toppings or ingredients.</p>
+
+<table>
+<tr>
+    <th>Ingredient</th>
+    <th>Amount</th>
+    <th>Carbs</th>
+</tr>
+
+<tbody id="toppings">
+
+<tr data-name="Milk" data-carbs="4.8">
+<td>Milk</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Cheese" data-carbs="0.1">
+<td>Cheese</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Butter" data-carbs="0.1">
+<td>Butter</td>
+<td><input type="range" min="0" max="50" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Spinach" data-carbs="3.6">
+<td>Spinach</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="total">
+Total carbohydrates: <span id="total">0.8g</span>
+</div>
+
+<button class="cancel" onclick="location.href='fooddictionary.html'">
+Cancel
+</button>
+
+<button class="save" onclick="saveMeal()">
+Add to Meal
+</button>
+
+<script>
+const eggCarbsPerEgg = 0.4;
+const eggSlider = document.getElementById("eggs");
+const rows = document.querySelectorAll("#toppings tr");
+
+function calculate() {
+    const eggCount = Number(eggSlider.value);
+    let total = eggCount * eggCarbsPerEgg;
+
+    document.getElementById("eggAmount").textContent =
+        eggCount + (eggCount === 1 ? " egg" : " eggs");
+
+    document.getElementById("eggCarbs").textContent =
+        (eggCount * eggCarbsPerEgg).toFixed(1) + "g";
+
+    rows.forEach(row => {
+        const amount = Number(row.querySelector("input").value);
+        const carbs = amount * Number(row.dataset.carbs) / 100;
+
+        row.querySelector(".amount").textContent = amount + "g";
+        row.querySelector(".carbs").textContent = carbs.toFixed(1) + "g";
+
+        total += carbs;
+    });
+
+    document.getElementById("total").textContent =
+        total.toFixed(1) + "g";
+}
+
+eggSlider.addEventListener("input", calculate);
+
+rows.forEach(row => {
+    row.querySelector("input").addEventListener("input", calculate);
+});
+
+function saveMeal() {
+    let meal = [];
+
+    try {
+        meal = JSON.parse(localStorage.getItem("spaceMeal")) || [];
+        if (!Array.isArray(meal)) meal = [];
+    } catch {
+        meal = [];
+    }
+
+    const eggCount = Number(eggSlider.value);
+    const toppings = [];
+
+    rows.forEach(row => {
+        const amount = Number(row.querySelector("input").value);
+
+        if (amount > 0) {
+            toppings.push({
+                name: row.dataset.name,
+                amount: amount,
+                carbs: amount * Number(row.dataset.carbs) / 100
+            });
+        }
+    });
+
+    const total = Number(
+        document.getElementById("total").textContent.replace("g", "")
+    );
+
+    meal.push({
+        food: "Scrambled Eggs",
+        eggs: eggCount,
+        eggCarbs: eggCount * eggCarbsPerEgg,
+        toppings: toppings,
+        totalCarbs: total
+    });
+
+    localStorage.setItem("spaceMeal", JSON.stringify(meal));
+
+    location.href = "fooddictionary.html";
+}
+
+calculate();
+</script>
+
+</body>
+</html>
