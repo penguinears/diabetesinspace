@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +40,7 @@ html, body {
 
 .content {
     text-align: center;
-    padding: 65px 20px;
+    padding: 35px 20px;
 }
 
 h1 {
@@ -47,10 +48,46 @@ h1 {
     color: #333;
 }
 
+h2 {
+    margin-top: 5px;
+}
+
+h3 {
+    margin-top: 5px;
+}
+
 p {
     margin-top: 12px;
     color: #888;
     font-size: 16px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.buttons a {
+    display: block;
+    flex: 1;
+    max-width: 300px;
+}
+
+.buttons img {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+@media (max-width: 500px) {
+    .buttons {
+        gap: 5px;
+    }
 }
 </style>
 </head>
@@ -66,16 +103,36 @@ p {
 </div>
 
 <div class="content">
+
     <h1></h1>
+
     <h2>There has Never Been an austranaught With Diabetes!</h2>
+
     <h3>made for the 2026 NASA Apps Hackathon</h3>
-    <p> Diabetes in Space aims to help get diabetic astronauts into space by creating
-        carbohydrate dictionary ( for common space foods) and
-        a glucose/activity logger to help them view trends in blood sugers and mange their blood sugers accordingly!</p>
-    <a href="fooddictionary.html">
-    <img src="food1images/dic.png" alt="Food Dictionary"
-         style="width:100%; max-width:300px; cursor:pointer;">
-</a>
+
+    <p>
+        Diabetes in Space aims to help get diabetic astronauts into space by creating
+        a carbohydrate dictionary (for common space foods) and
+        a glucose/activity logger to help them view trends in blood sugars
+        and manage their blood sugars accordingly!
+    </p>
+
+    <div class="buttons">
+
+        <a href="fooddictionary.html">
+            <img src="food1images/dic.png" alt="Food Dictionary">
+        </a>
+
+        <a href="logs.html">
+            <img src="food1images/logsbut.png" alt="Logs">
+        </a>
+
+        <a href="boluscalculator.html">
+            <img src="food1images/calculator.png" alt="Bolus Calculator">
+        </a>
+
+    </div>
+
 </div>
 
 <script>
