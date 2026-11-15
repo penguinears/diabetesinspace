@@ -4,27 +4,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Logs</title>
+
+<title>Logs | Diabetes In Space</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 15px;
+}
+
+.banner {
+    width: 100%;
+    display: block;
+}
+
+input {
+    padding: 8px;
+    margin: 5px 0 15px;
+    width: 250px;
+    max-width: 90%;
+}
+
+button {
+    background: #001b5e;
+    color: white;
+    border: none;
+    padding: 9px 16px;
+    cursor: pointer;
+}
+
+#entries {
+    margin-top: 10px;
+}
+
+.entry {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+}
+</style>
 </head>
 
 <body>
 
-<img src="food1images/logsbut.png" width="100%" alt="Logs">
+<img class="banner" src="food1images/logs.jpg" alt="Logs">
 
 <h1>Logs</h1>
-<p>I know its bad i decided to have a life and go climbing ill make it look nice when home</p>
 
-<h3>Blood glucose (mmol/L)</h3>
+<h3>Blood glucose (mmol/L) </h3>
 <input type="number" id="glucose" step="0.1" placeholder="Enter reading">
 
-<h3>Notes(eg activy or time?)</h3>
-<input type="text" id="activity" placeholder="e.g. Eating lunch, exercising">
+<h3>What are you doing right now?(eg exersizing or eating)</h3>
+<input type="text" id="activity" placeholder="...">
 
+<br>
 <button onclick="addLog()">Log Entry</button>
 
 <h2>Previous Entries</h2>
 
-<div id="entries">Nien entries yet.</div>
+<div id="entries">no entrys create one to fill up</div>
 
 <p><a href="index.html">Back to Home</a></p>
 
@@ -71,7 +109,8 @@ function showLogs() {
 
     logs.forEach(log => {
 
-        let entry = document.createElement("p");
+        let entry = document.createElement("div");
+        entry.className = "entry";
 
         entry.textContent =
             log.date + " | " +
