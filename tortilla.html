@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tortilla</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: white;
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+h1 {
+    color: darkblue;
+    text-decoration: underline;
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 21px;
+    margin-top: 30px;
+}
+
+table {
+    width: 100%;
+    max-width: 700px;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #e8edf3;
+}
+
+input[type="range"] {
+    width: 110px;
+}
+
+.amount {
+    display: inline-block;
+    min-width: 35px;
+}
+
+.total {
+    margin-top: 25px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 25px;
+}
+
+.cancel {
+    background: #ddd;
+    color: black;
+}
+
+.save {
+    background: #001b5e;
+    color: white;
+    margin-left: 10px;
+    border-radius: 30px;
+    text-shadow:
+        0 0 3px white,
+        0 0 6px white,
+        0 0 12px white,
+        0 0 18px white;
+}
+
+@media(max-width: 500px) {
+    body {
+        padding: 12px;
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 13px;
+    }
+
+    input[type="range"] {
+        width: 75px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Tortilla</h1>
+
+<h2>Bread</h2>
+
+<p>1 medium tortilla (50g)</p>
+<p><b>Carbohydrates: 32g</b></p>
+
+<h2>Toppings</h2>
+<p>Choose your toppings and how much you want.</p>
+
+<table>
+<tr>
+    <th>Topping</th>
+    <th>Amount</th>
+    <th>Carbs</th>
+</tr>
+
+<tbody id="toppings">
+
+<tr data-name="Chicken" data-carbs="0">
+<td>Chicken</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Cheese" data-carbs="0.1">
+<td>Cheese</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Dried tomatoes" data-carbs="55">
+<td>Dried tomatoes</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Sweetcorn" data-carbs="18.7">
+<td>Sweetcorn</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Kidney beans" data-carbs="14.5">
+<td>Kidney beans</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Peppers" data-carbs="4.6">
+<td>Peppers</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+<tr data-name="Spinach" data-carbs="3.6">
+<td>Spinach</td>
+<td><input type="range" min="0" max="100" step="5" value="0"><span class="amount">0g</span></td>
+<td class="carbs">0g</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="total">
+Total carbohydrates: <span id="total">32g</span>
+</div>
+
+<button class="cancel" onclick="location.href='fooddictionary.html'">
+Cancel
+</button>
+
+<button class="save" onclick="saveMeal()">
+Add to Meal
+</button>
+
+<script>
+const baseCarbs = 32;
+const rows = document.querySelectorAll("#toppings tr");
+
+function calculate() {
+    let total = baseCarbs;
+
+    rows.forEach(row => {
+        const amount = Number(row.querySelector("input").value);
+        const carbs = amount * Number(row.dataset.carbs) / 100;
+
+        row.querySelector(".amount").textContent = amount + "g";
+        row.querySelector(".carbs").textContent = carbs.toFixed(1) + "g";
+
+        total += carbs;
+    });
+
+    document.getElementById("total").textContent =
+        total.toFixed(1) + "g";
+}
+
+rows.forEach(row => {
+    row.querySelector("input").addEventListener("input", calculate);
+});
+
+function saveMeal() {
+    let meal = [];
+
+    try {
+        meal = JSON.parse(localStorage.getItem("spaceMeal")) || [];
+        if (!Array.isArray(meal)) meal = [];
+    } catch {
+        meal = [];
+    }
+
+    const toppings = [];
+
+    rows.forEach(row => {
+        const amount = Number(row.querySelector("input").value);
+
+        if (amount > 0) {
+            toppings.push({
+                name: row.dataset.name,
+                amount: amount,
+                carbs: amount * Number(row.dataset.carbs) / 100
+            });
+        }
+    });
+
+    const total = Number(
+        document.getElementById("total").textContent.replace("g", "")
+    );
+
+    meal.push({
+        food: "Tortilla",
+        breadCarbs: baseCarbs,
+        toppings: toppings,
+        totalCarbs: total
+    });
+
+    localStorage.setItem("spaceMeal", JSON.stringify(meal));
+
+    location.href = "fooddictionary.html";
+}
+
+calculate();
+</script>
+
+</body>
+</html>
