@@ -48,6 +48,14 @@ h1 {
 
 .food {
     width: 160px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    text-align: center;
+}
+
+.food-image {
+    width: 160px;
     height: 160px;
     display: block;
     overflow: hidden;
@@ -65,6 +73,51 @@ h1 {
     transform: scale(1.04);
 }
 
+.food-name {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.meal-section {
+    margin-top: 10px;
+    padding-bottom: 30px;
+}
+
+.meal-section h1 {
+    margin-bottom: 15px;
+}
+
+#mealItems {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.8;
+}
+
+.meal-item {
+    margin-bottom: 5px;
+}
+
+.continue {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 14px 25px;
+    background: #001b5e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow:
+        0 0 3px white,
+        0 0 6px white,
+        0 0 12px white,
+        0 0 18px white;
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
     .food-row {
         gap: 12px;
@@ -72,8 +125,16 @@ h1 {
 
     .food {
         width: calc(33.333% - 8px);
+    }
+
+    .food-image {
+        width: 100%;
         height: auto;
         aspect-ratio: 1 / 1;
+    }
+
+    .food-name {
+        font-size: 13px;
     }
 }
 </style>
@@ -92,15 +153,24 @@ h1 {
     <div class="food-row">
 
         <a href="cereal.html" class="food">
-            <img src="images/breakfast/cereal.png" alt="Cereal">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Cereal">
+            </span>
+            <span class="food-name">Cereal</span>
         </a>
 
         <a href="egg.html" class="food">
-            <img src="images/breakfast/egg.png" alt="Scrambled eggs">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Scrambled eggs">
+            </span>
+            <span class="food-name">Scrambled Eggs</span>
         </a>
 
         <a href="sausage.html" class="food">
-            <img src="images/breakfast/sausage.png" alt="Sausage">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Sausages">
+            </span>
+            <span class="food-name">Sausages</span>
         </a>
 
     </div>
@@ -110,17 +180,67 @@ h1 {
     <div class="food-row">
 
         <a href="MacCheese.html" class="food">
-            <img src="images/lunch/MacCheese.png" alt="Macaroni and cheese">
+            <span class="food-image">
+                <img src="images/lunch/MacCheese.png" alt="Macaroni and cheese">
+            </span>
+            <span class="food-name">Macaroni and Cheese</span>
         </a>
 
         <a href="tortilla.html" class="food">
-            <img src="images/lunch/tortilla.png" alt="Tortilla">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Tortilla">
+            </span>
+            <span class="food-name">Tortilla</span>
+        </a>
+
+        <a href="broccoli.html" class="food">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Broccoli au Gratin">
+            </span>
+            <span class="food-name">Broccoli au Gratin</span>
+        </a>
+
+    </div>
+
+    <div class="meal-section">
+
+        <h1>My Meal:</h1>
+
+        <div id="mealItems"></div>
+
+        <a href="boluscalculator.html" class="continue">
+            Continue to Bolus Calculator
         </a>
 
     </div>
 
 </div>
 
+<script>
+function displayMeal() {
+
+    const mealItems = document.getElementById("mealItems");
+
+    let savedMeal = JSON.parse(localStorage.getItem("spaceMeal")) || [];
+
+    mealItems.innerHTML = "";
+
+    savedMeal.forEach(item => {
+
+        const name = item.food || "Food";
+
+        const div = document.createElement("div");
+        div.className = "meal-item";
+        div.textContent = name;
+
+        mealItems.appendChild(div);
+
+    });
+
+}
+
+displayMeal();
+</script>
+
 </body>
 </html>
-
