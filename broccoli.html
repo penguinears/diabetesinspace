@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broccoli au Gratin</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: white;
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+h1 {
+    color: darkblue;
+    text-decoration: underline;
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 21px;
+    margin-top: 30px;
+}
+
+input[type="number"] {
+    width: 100px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #aaa;
+}
+
+.total {
+    margin-top: 25px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.reference {
+    margin-top: 20px;
+}
+
+.reference a {
+    color: darkblue;
+}
+
+button {
+    padding: 9px 18px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 25px;
+}
+
+.cancel {
+    background: #ddd;
+    color: black;
+}
+
+.save {
+    background: #001b5e;
+    color: white;
+    margin-left: 10px;
+    border-radius: 30px;
+    text-shadow:
+        0 0 3px white,
+        0 0 6px white,
+        0 0 12px white,
+        0 0 18px white;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Broccoli au Gratin</h1>
+
+<h2>Portion size</h2>
+
+<p>Enter how many portions you are eating.</p>
+
+<input type="number" id="portions" min="1" max="100" step="1" value="1">
+
+<div class="total">
+Carbohydrates per portion: <span id="perPortion">14.4g</span>
+</div>
+
+<div class="total">
+Total carbohydrates: <span id="total">14.4g</span>
+</div>
+
+<p class="reference">
+    NASA reference:
+    <a href="https://www.nasa.gov/wp-content/uploads/2024/06/nasa-space-food-formulations-rehydratable.pdf"
+       target="_blank" rel="noopener noreferrer">
+        NASA Broccoli au Gratin Formulation
+    </a>
+</p>
+
+<button class="cancel" onclick="location.href='fooddictionary.html'">
+Cancel
+</button>
+
+<button class="save" onclick="saveMeal()">
+Add to Meal
+</button>
+
+<script>
+const carbsPerPortion = 14.4;
+
+const portionsInput = document.getElementById("portions");
+
+function calculate() {
+    let portions = Number(portionsInput.value);
+
+    if (!Number.isFinite(portions) || portions < 0) {
+        portions = 0;
+    }
+
+    const total = carbsPerPortion * portions;
+
+    document.getElementById("perPortion").textContent =
+        carbsPerPortion.toFixed(1) + "g";
+
+    document.getElementById("total").textContent =
+        total.toFixed(1) + "g";
+}
+
+portionsInput.addEventListener("input", calculate);
+
+function saveMeal() {
+    const portions = Number(portionsInput.value);
+
+    if (!Number.isInteger(portions) || portions < 1 || portions > 100) {
+        alert("Please enter a number of portions between 1 and 100.");
+        return;
+    }
+
+    let meal = [];
+
+    try {
+        meal = JSON.parse(localStorage.getItem("spaceMeal")) || [];
+        if (!Array.isArray(meal)) meal = [];
+    } catch {
+        meal = [];
+    }
+
+    const total = carbsPerPortion * portions;
+
+    meal.push({
+        food: "Broccoli au Gratin",
+        portions: portions,
+        carbsPerPortion: carbsPerPortion,
+        totalCarbs: total
+    });
+
+    localStorage.setItem("spaceMeal", JSON.stringify(meal));
+
+    location.href = "fooddictionary.html";
+}
+
+calculate();
+</script>
+
+</body>
+</html>
