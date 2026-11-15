@@ -68,7 +68,6 @@ p {
 
 <div class="content">
     <h1>Site in Progress</h1>
-    <p>Something exciting is coming soon.</p>
 </div>
 
 <script>
@@ -81,6 +80,28 @@ video.play().catch(() => {
     document.addEventListener("click", () => {
         video.play();
     }, { once: true });
+});
+
+window.addEventListener("load", () => {
+    const heading = document.querySelector("h1");
+    const start = window.scrollY;
+    const distance = heading.getBoundingClientRect().top;
+    const duration = 2000;
+    const startTime = performance.now();
+
+    function scroll() {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = progress * progress * (3 - 2 * progress);
+
+        window.scrollTo(0, start + distance * eased);
+
+        if (progress < 1) {
+            requestAnimationFrame(scroll);
+        }
+    }
+
+    requestAnimationFrame(scroll);
 });
 </script>
 
