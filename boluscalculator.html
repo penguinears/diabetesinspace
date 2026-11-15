@@ -203,7 +203,7 @@ input[type=range] {
     <div class="calc-row">
         <div>
             <div class="calc-title">Glucose component</div>
-            <div class="small">Based on glucose reading</div>
+            <div class="small">Based of correction to bring glucose back into range is high or might lower your amount if lower blood levels</div>
         </div>
 
         <div class="calc-value" id="glucoseInsulin">
@@ -247,27 +247,24 @@ input[type=range] {
             0.00
         </div>
 
-        <p class="small">Demonstration units only</p>
-
+        
+ 
     </div>
 
 </div>
 
-<a href="food1.html" class="back">
-    &larr; Back to Food Dictionary
+<a href="fooddictionary.html" class="back">
+    &larr; Back to the Food Dictionary
 </a>
 
 <p class="notice">
-    This calculator is for demonstration purposes only.
-    It is not intended to calculate real insulin doses or
-    be used for medical treatment.
+    This calculator is a demo dont actually use it to caclualte diabete insilun intake!
 </p>
 
 </div>
 
 <script>
 
-// Load saved meal
 
 const savedMeal =
     JSON.parse(localStorage.getItem("spaceMeal")) || [];
@@ -275,7 +272,6 @@ const savedMeal =
 let totalCarbs = 0;
 
 
-// Read carbohydrate information
 
 function getCarbs(item) {
 
@@ -322,10 +318,7 @@ function getCarbs(item) {
 
     return 0;
 }
-
-
-// Display meal
-
+    
 function displayMeal() {
 
     const container = document.getElementById("mealItems");
@@ -359,14 +352,11 @@ function displayMeal() {
 }
 
 
-// Fictional demonstration settings
 
 const DEMO_CARB_RATIO = 10;
 const DEMO_TARGET = 6;
 const DEMO_SENSITIVITY = 3;
 
-
-// Update calculation whenever slider moves
 
 function updateCalculator() {
 
@@ -400,15 +390,10 @@ function updateCalculator() {
 }
 
 
-// Slider event
-
 document.getElementById("glucose").addEventListener(
     "input",
     updateCalculator
 );
-
-
-// Start
 
 displayMeal();
 updateCalculator();
