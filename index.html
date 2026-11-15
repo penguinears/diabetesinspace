@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Diabetes In Space</title>
+<title>Food Dictionary | Diabetes In Space</title>
 
 <style>
 * {
@@ -14,44 +13,128 @@
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
-    min-height: 100%;
+body {
     background: white;
     font-family: Arial, sans-serif;
 }
 
 .banner {
     width: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.banner video {
+.banner img {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 100vh;
-    object-fit: contain;
-    pointer-events: none;
 }
 
 .content {
-    text-align: center;
-    padding: 65px 20px;
+    padding: 35px 5%;
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 26px;
     color: #333;
+    margin-bottom: 20px;
 }
 
-p {
-    margin-top: 12px;
-    color: #888;
+.food-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.food {
+    width: 160px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    text-align: center;
+}
+
+.food-image {
+    width: 160px;
+    height: 160px;
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.food img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.food:hover {
+    transform: scale(1.04);
+}
+
+.food-name {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.meal-section {
+    margin-top: 10px;
+    padding-bottom: 30px;
+}
+
+.meal-section h1 {
+    margin-bottom: 15px;
+}
+
+#mealItems {
     font-size: 16px;
+    color: #333;
+    line-height: 1.8;
+}
+
+.meal-item {
+    margin-bottom: 5px;
+}
+
+.continue {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 14px 25px;
+    background: #001b5e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow:
+        0 0 3px white,
+        0 0 6px white,
+        0 0 12px white,
+        0 0 18px white;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .food-row {
+        gap: 12px;
+    }
+
+    .food {
+        width: calc(33.333% - 8px);
+    }
+
+    .food-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .food-name {
+        font-size: 13px;
+    }
 }
 </style>
 </head>
@@ -59,57 +142,103 @@ p {
 <body>
 
 <div class="banner">
-    <video autoplay muted loop playsinline
-           disablepictureinpicture
-           controlslist="nodownload nofullscreen noremoteplayback">
-        <source src="Diabetes In space.mp4" type="video/mp4">
-    </video>
+    <img src="food1images/Diabetes In space (1).png" alt="Diabetes In Space">
 </div>
 
 <div class="content">
-    <h1>There has Never Been an austranaught With Diabetes!</h1>
-    <p> Diabetes in Space aims to help get diabetic astronauts into space by creating
-        carbohydrate dictionary ( for common space foods) and
-        a glucose/activity logger to help them view trends in blood sugers and mange their blood sugers accordingly!</p>
-    <a href="fooddictionary.html">
-    <img src="food1images/dic.png" alt="Food Dictionary"
-         style="width:100%; max-width:300px; cursor:pointer;">
-</a>
+
+    <h1>Breakfast</h1>
+
+    <div class="food-row">
+
+        <a href="cereal.html" class="food">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Cereal">
+            </span>
+            <span class="food-name">Cereal</span>
+        </a>
+
+        <a href="egg.html" class="food">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Scrambled eggs">
+            </span>
+            <span class="food-name">Scrambled Eggs</span>
+        </a>
+
+        <a href="sausage.html" class="food">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Sausages">
+            </span>
+            <span class="food-name">Sausages</span>
+        </a>
+
+    </div>
+
+    <h1>Lunch / Dinner</h1>
+
+    <div class="food-row">
+
+        <a href="MacCheese.html" class="food">
+            <span class="food-image">
+                <img src="images/lunch/MacCheese.png" alt="Macaroni and cheese">
+            </span>
+            <span class="food-name">Macaroni and Cheese</span>
+        </a>
+
+        <a href="tortilla.html" class="food">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Tortilla">
+            </span>
+            <span class="food-name">Tortilla</span>
+        </a>
+
+        <a href="broccoli.html" class="food">
+            <span class="food-image">
+                <img src="food1images/image removed just incase its copyright.png" alt="Broccoli au Gratin">
+            </span>
+            <span class="food-name">Broccoli au Gratin</span>
+        </a>
+
+    </div>
+
+    <div class="meal-section">
+
+        <h1>My Meal:</h1>
+
+        <div id="mealItems"></div>
+
+        <a href="boluscalculator.html" class="continue">
+            Continue to Bolus Calculator
+        </a>
+
+    </div>
+
 </div>
 
 <script>
-const video = document.querySelector("video");
+function displayMeal() {
 
-video.muted = true;
-video.defaultMuted = true;
+    const mealItems = document.getElementById("mealItems");
 
-video.play().catch(() => {
-    document.addEventListener("click", () => {
-        video.play();
-    }, { once: true });
-});
+    let savedMeal = JSON.parse(localStorage.getItem("spaceMeal")) || [];
 
-window.addEventListener("load", () => {
-    const heading = document.querySelector("h1");
-    const start = window.scrollY;
-    const distance = heading.getBoundingClientRect().top;
-    const duration = 3900;
-    const startTime = performance.now();
+    mealItems.innerHTML = "";
 
-    function scroll() {
-        const elapsed = performance.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = progress * progress * (3 - 2 * progress);
+    savedMeal.forEach(item => {
 
-        window.scrollTo(0, start + distance * eased);
+        const name = item.food || "Food";
 
-        if (progress < 1) {
-            requestAnimationFrame(scroll);
-        }
-    }
+        const div = document.createElement("div");
+        div.className = "meal-item";
+        div.textContent = name;
 
-    requestAnimationFrame(scroll);
-});
+        mealItems.appendChild(div);
+
+    });
+
+}
+
+displayMeal();
 </script>
 
 </body>
