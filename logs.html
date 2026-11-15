@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logs</title>
+</head>
+
+<body>
+
+<img src="food1images/logsbut.png" width="100%" alt="Logs">
+
+<h1>Logs</h1>
+<p>I know its bad i decided to have a life and go climbing ill make it look nice when home</p>
+
+<h3>Blood glucose (mmol/L)</h3>
+<input type="number" id="glucose" step="0.1" placeholder="Enter reading">
+
+<h3>Notes(eg activy or time?)</h3>
+<input type="text" id="activity" placeholder="e.g. Eating lunch, exercising">
+
+<button onclick="addLog()">Log Entry</button>
+
+<h2>Previous Entries</h2>
+
+<div id="entries">Nien entries yet.</div>
+
+<p><a href="index.html">Back to Home</a></p>
+
+<script>
+
+let logs = [];
+
+function addLog() {
+
+    let glucose = document.getElementById("glucose").value;
+    let activity = document.getElementById("activity").value;
+
+    if (glucose === "" && activity.trim() === "") {
+        return;
+    }
+
+    let now = new Date();
+
+    logs.unshift({
+        glucose: glucose,
+        activity: activity,
+        date: now.toLocaleDateString() + " " +
+              now.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit"
+              })
+    });
+
+    showLogs();
+
+    document.getElementById("glucose").value = "";
+    document.getElementById("activity").value = "";
+}
+
+function showLogs() {
+
+    let entries = document.getElementById("entries");
+    entries.innerHTML = "";
+
+    if (logs.length === 0) {
+        entries.textContent = "No entries yet.";
+        return;
+    }
+
+    logs.forEach(log => {
+
+        let entry = document.createElement("p");
+
+        entry.textContent =
+            log.date + " | " +
+            (log.glucose ? log.glucose + " mmol/L" : "") +
+            " | " + log.activity;
+
+        entries.appendChild(entry);
+
+    });
+}
+
+</script>
+
+</body>
+</html>
