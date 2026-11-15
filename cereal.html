@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cereal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: white;
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+h1 {
+    color: darkblue;
+    text-decoration: underline;
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 21px;
+    margin-top: 30px;
+}
+
+table {
+    width: 100%;
+    max-width: 700px;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #e8edf3;
+}
+
+input[type="range"] {
+    width: 110px;
+}
+
+.amount {
+    display: inline-block;
+    min-width: 35px;
+}
+
+.total {
+    margin-top: 25px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 25px;
+}
+
+.cancel {
+    background: #ddd;
+    color: black;
+}
+
+.save {
+    background: #001b5e;
+    color: white;
+    margin-left: 10px;
+    border-radius: 30px;
+    text-shadow:
+        0 0 3px white,
+        0 0 6px white,
+        0 0 12px white,
+        0 0 18px white;
+}
+
+@media(max-width: 500px) {
+    body {
+        padding: 12px;
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 13px;
+    }
+
+    input[type="range"] {
+        width: 75px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Cereal</h1>
+
+<h2>Cold cereal</h2>
+
+<p>Choose how much cereal you want.</p>
+
+<table>
+<tr>
+    <th>Food</th>
+    <th>Amount</th>
+    <th>Carbs</th>
+</tr>
+
+<tr>
+    <td>Cold cereal</td>
+    <td>
+        <input type="range" id="cereal" min="0" max="100" step="5" value="30">
+        <span class="amount" id="cerealAmount">30g</span>
+    </td>
+    <td id="cerealCarbs">25.2g</td>
+</tr>
+</table>
+
+<h2>Milk</h2>
+
+<p>Choose how much milk you want.</p>
+
+<table>
+<tr>
+    <th>Food</th>
+    <th>Amount</th>
+    <th>Carbs</th>
+</tr>
+
+<tr>
+    <td>Milk</td>
+    <td>
+        <input type="range" id="milk" min="0" max="300" step="10" value="150">
+        <span class="amount" id="milkAmount">150ml</span>
+    </td>
+    <td id="milkCarbs">7.2g</td>
+</tr>
+</table>
+
+<h2>Toppings</h2>
+
+<p>Pick your toppings..</p>
+
+<table>
+<tr>
+    <th>Food</th>
+    <th>Amount</th>
+    <th>Carbs</th>
+</tr>
+
+<tr>
+    <td>Fruit yoghurt</td>
+    <td>
+        <input type="range" id="yoghurt" min="0" max="200" step="5" value="0">
+        <span class="amount" id="yoghurtAmount">0g</span>
+    </td>
+    <td id="yoghurtCarbs">0g</td>
+</tr>
+</table>
+
+<div class="total">
+Total carbohydrates: <span id="total">32.4g</span>
+</div>
+
+<button class="cancel" onclick="location.href='fooddictionary.html'">
+Cancel
+</button>
+
+<button class="save" onclick="saveMeal()">
+Add to Meal
+</button>
+
+<script>
+const cerealCarbsPer100g = 84;
+const milkCarbsPer100ml = 4.8;
+const yoghurtCarbsPer100g = 12;
+
+const cerealSlider = document.getElementById("cereal");
+const milkSlider = document.getElementById("milk");
+const yoghurtSlider = document.getElementById("yoghurt");
+
+function calculate() {
+    const cerealAmount = Number(cerealSlider.value);
+    const milkAmount = Number(milkSlider.value);
+    const yoghurtAmount = Number(yoghurtSlider.value);
+
+    const cerealCarbs = cerealAmount * cerealCarbsPer100g / 100;
+    const milkCarbs = milkAmount * milkCarbsPer100ml / 100;
+    const yoghurtCarbs = yoghurtAmount * yoghurtCarbsPer100g / 100;
+
+    document.getElementById("cerealAmount").textContent =
+        cerealAmount + "g";
+
+    document.getElementById("cerealCarbs").textContent =
+        cerealCarbs.toFixed(1) + "g";
+
+    document.getElementById("milkAmount").textContent =
+        milkAmount + "ml";
+
+    document.getElementById("milkCarbs").textContent =
+        milkCarbs.toFixed(1) + "g";
+
+    document.getElementById("yoghurtAmount").textContent =
+        yoghurtAmount + "g";
+
+    document.getElementById("yoghurtCarbs").textContent =
+        yoghurtCarbs.toFixed(1) + "g";
+
+    const total = cerealCarbs + milkCarbs + yoghurtCarbs;
+
+    document.getElementById("total").textContent =
+        total.toFixed(1) + "g";
+}
+
+cerealSlider.addEventListener("input", calculate);
+milkSlider.addEventListener("input", calculate);
+yoghurtSlider.addEventListener("input", calculate);
+
+function saveMeal() {
+    let meal = [];
+
+    try {
+        meal = JSON.parse(localStorage.getItem("spaceMeal")) || [];
+        if (!Array.isArray(meal)) meal = [];
+    } catch {
+        meal = [];
+    }
+
+    const cerealAmount = Number(cerealSlider.value);
+    const milkAmount = Number(milkSlider.value);
+    const yoghurtAmount = Number(yoghurtSlider.value);
+
+    const cerealCarbs = cerealAmount * cerealCarbsPer100g / 100;
+    const milkCarbs = milkAmount * milkCarbsPer100ml / 100;
+    const yoghurtCarbs = yoghurtAmount * yoghurtCarbsPer100g / 100;
+
+    const total = cerealCarbs + milkCarbs + yoghurtCarbs;
+
+    meal.push({
+        food: "Cereal",
+        cereal: "Cold cereal",
+        cerealAmount: cerealAmount,
+        cerealCarbs: cerealCarbs,
+        milk: "Milk",
+        milkAmount: milkAmount,
+        milkCarbs: milkCarbs,
+        yoghurt: "Fruit yoghurt",
+        yoghurtAmount: yoghurtAmount,
+        yoghurtCarbs: yoghurtCarbs,
+        totalCarbs: Number(total.toFixed(1))
+    });
+
+    localStorage.setItem("spaceMeal", JSON.stringify(meal));
+
+    location.href = "fooddictionary.html";
+}
+
+calculate();
+</script>
+
+</body>
+</html>
